@@ -1,4 +1,4 @@
-（大牛的程序修改版 git clone https://github.com/moshang-xc/lottery.git）
+（基于大牛的程序 git clone https://github.com/moshang-xc/lottery.git 修改版）
 # 抽奖程序
 年会抽奖程序，3D球体抽奖，支持奖品信息配置，参与抽奖人员信息`Excel`导入，抽奖结果`Excel`导出
 
