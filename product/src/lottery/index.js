@@ -538,8 +538,8 @@ function selectCard(duration = 600) {
   rotate = false;
   let width = 115, //抽奖结果卡片间距
     tag = -(currentLuckys.length - 1) / 2,
-    num = 1;
-  currentLuckys.length >= 10 && (tag = -(10 - 1) / 2);
+    num = 1; //当前抽取的第num张卡片
+  currentLuckys.length >10 && (tag = -(11 - 1) / 2);
 
   let text = currentLuckys.map(item => item[1]);
   addQipao(
