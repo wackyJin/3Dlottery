@@ -3,6 +3,8 @@ const MAX_TOP = 300,
 
 let defaultType = 0;
 
+let moneyConut = 80 //现金红包个数
+
 let prizes;
 const DEFAULT_MESS = ['我是该抽中一等奖还是一等奖呢，纠结ing...', '听说要提前一个月吃素才能中大奖喔！', '好想要无人机啊！！！', '一等奖有没有人想要呢？', '五等奖也不错，只要自己能中奖就行', '祝大家新年快乐！', '中不中奖不重要，大家吃好喝好。', '我已经有了天猫精灵了，要是再中个小度，那我该宠谁呢？', '2019年，祝福大家事事顺遂。', '作为专业陪跑的我，我就看看你们有谁跟我一样', '2019祝福TENDA越来越好！', '2019了，有没有要生猪宝宝的？', '来年再战！！！', '去年UI组全员陪跑，今年是否还是如此呢？', '我们UI组至少要重一个大奖吧'];
 
@@ -143,17 +145,21 @@ function showPrizeList(currentPrizeIndex) {
     if (currentPrize.type === defaultType) {//特等奖
         currentPrize.count === '不限制';
     }
-    let htmlCode = `<div class="prize-mess">正在抽取<label id="prizeType" class="prize-shine">${currentPrize.type +'等奖'}</label><label id="prizeText" class="prize-shine">${currentPrize['title']}</label>，剩余<label id="prizeLeft" class="prize-shine">${currentPrize['count']}</label>个</div><ul class="prize-list">`;
+    let htmlCode = `<div class="prize-mess">正在抽取
+    <label id="prizeType" class="prize-shine">${currentPrize.type<0?'幸运': (currentPrize.type==99?'特别':(currentPrize.type+'等'))}奖</label>
+     <label id="prizeText" class="prize-shine">${currentPrize['title']}</label>，
+     剩余<label id="prizeLeft" class="prize-shine">${currentPrize['count']}</label>个</div><ul class="prize-list">`;
+    // let htmlCode = `<div class="prize-mess">正在抽取<label id="prizeType" class="prize-shine">${currentPrize.type +'等奖'}</label><label id="prizeText" class="prize-shine">${currentPrize['title']}</label>，剩余<label id="prizeLeft" class="prize-shine">${currentPrize['count']}</label>个</div><ul class="prize-list">`;
     prizes.forEach(item => {
         if (item.type === defaultType) {
             return true;
         }
-        htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${(item.type == currentPrize.type ? "shine": '')}">
+        htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${(item.type == currentPrize.type ? "shine": '')} ${item.type<0?'hiddenLi':''}">
                         <div class="prize-img">
                             <img src="${item.img}" alt="${item.title}">
                         </div>
                         <div class="prize-text">
-                            <h5 class="prize-title">${item.type==(-1)?'幸运': item.type==(-2)?'特别':(item.type+'等')}奖 ${item.title}</h5>
+                            <h5 class="prize-title">${item.type<0?'幸运': (item.type==99?'特别':(item.type+'等'))}奖 ${item.title}</h5>
                             <div class="prize-count">
                                 <div class="progress">
                                     <div id="prize-bar-${item.type}" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;">
@@ -207,27 +213,37 @@ let setPrizeData = (function() {
                 document.querySelector(`#prize-count-${type}`).textContent = '0' + '/' + prizes[i]['count'];
             }
         }
-
+        // 
+        // if (currentPrize.type<0) {
+        //     let id=`prize-item-${currentPrize.type}`
+        //     document.getElementById(id).remove('hiddenLi');
+        // }
+        // 
         if (lasetPrizeIndex !== currentPrizeIndex) {
             let lastPrize = prizes[lasetPrizeIndex],
                 lastBox = document.querySelector(`#prize-item-${lastPrize.type}`);
             lastBox.classList.remove('shine');
             lastBox.classList.add('done');
+            // currentPrize.type<0 && lastBox.classList.add('hiddenLi');
             elements.box && elements.box.classList.add('shine');
-            prizeElement.prizeType.textContent = currentPrize.type + '等奖';
+            prizeElement.prizeType.textContent = currentPrize.type<0?'幸运奖': (currentPrize.type==99?'特别奖':(currentPrize.type+'等奖'));
             prizeElement.prizeText.textContent = currentPrize.title;
 
             lasetPrizeIndex = currentPrizeIndex;
         }
 
         if (currentPrizeIndex === 0) {
-            prizeElement.prizeType.textContent = '特别奖';
-            prizeElement.prizeText.textContent = ' 笔记本电脑';
-            prizeElement.prizeLeft.textContent = '5';
+            prizeElement.prizeType.textContent = '主持人的祝福';
+            prizeElement.prizeText.textContent = '';
+            prizeElement.prizeLeft.textContent = '不限制';
             return;
         }
-
-        count = totalCount - count;
+        if(type<0){
+            count = moneyConut - count
+            moneyConut = count
+        }else{
+            count = totalCount - count;
+        }
         let percent = (count / totalCount).toFixed(2);
         elements.bar && (elements.bar.style.width = percent * 100 + '%');
         elements.text && (elements.text.textContent = count + '/' + totalCount);

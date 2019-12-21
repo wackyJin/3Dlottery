@@ -116,12 +116,12 @@ router.post('/errorData', (req, res, next) => {
 
 // 保存数据到excel中去
 router.post('/export', (req, res, next) => {
-    let type = [1, 2, 3, 4, -1, 5, 6, 7, 8, 9,-2,defaultType],
+    let type = [99,1, 2, 3, 4, 5, 6, 7, 8, 9,-1,-2,-3,-4,defaultType],
         outData = [
             ['工号', '姓名', '部门']
         ];
     type.forEach((item) => {
-        outData.push(item === defaultType ? ['特别奖'] :  item ==(-1)?['幸运奖'] : [`${item}等奖`]);
+        outData.push(item === defaultType ? ['主持人的祝福'] :  item <0?['幸运奖'] : item==99?['特别奖']: [`${item}等奖`]);
         outData = outData.concat(luckyData[item] || []);
     });
 

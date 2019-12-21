@@ -328,6 +328,10 @@ button:active {
     position: relative;
 }
 
+.hiddenLi{
+    display: none;
+}
+
 .shine:before,
 .shine:after {
     position: absolute;

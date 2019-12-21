@@ -84,7 +84,7 @@ function initAll() {
         if (
           data.luckyData[prizeIndex] &&
           data.luckyData[prizeIndex].length >=
-            basicData.prizes[prizeIndex].count
+          basicData.prizes[prizeIndex].count
         ) {
           continue;
         }
@@ -110,6 +110,36 @@ function initAll() {
       shineCard();
     }
   });
+}
+
+// 根据抽奖等级修改当前视图
+function changeScreen(currentPrizeIndex) {
+  switch (currentPrizeIndex) {
+    case 10: //8等奖
+      switchScreen("enter");
+      break;
+    case 8://6等奖
+      switchScreen("helix");
+      break;
+    case 7: //5等奖
+      switchScreen("enter");
+      break;
+    case 6: //4等奖
+      switchScreen("grid");
+      break;
+    case 4://3等奖
+      switchScreen("helix");
+      break;
+    case 2://1等奖
+      switchScreen("helix");
+      break;
+    case 1://特别奖
+      switchScreen("grid");
+      break;
+    default:
+      switchScreen("sphere");
+      break;
+  }
 }
 
 function initCards() {
@@ -207,7 +237,8 @@ function initCards() {
 
     object.position.x = (i % 5) * 400 - 800;
     object.position.y = -(Math.floor(i / 5) % 5) * 400 + 800;
-    object.position.z = Math.floor(i / 25) * 1000 - 2000;
+    // object.position.z = Math.floor(i / 25) * 1000 - 2000;
+    object.position.z = Math.floor(i / 25) * 800 - 2000;
 
     targets.grid.push(object);
   }
@@ -236,41 +267,12 @@ function setLotteryStatus(status = false) {
   isLotting = status;
 }
 
-// 根据抽奖等级修改当前视图
-function changeScreen(currentPrizeIndex){
-  switch (currentPrizeIndex) {
-    case 10: //8等奖
-      switchScreen("enter");
-      break;
-    case 8://6等奖
-      switchScreen("helix");
-      break;
-    case 7: //5等奖
-      switchScreen("enter");
-      break;
-    case 6: //4等奖
-      switchScreen("grid");
-      break;
-    case 4://3等奖
-      switchScreen("helix");
-      break;
-    case 2://1等奖
-      switchScreen("enter");
-      break;
-    case 1://特别奖
-      switchScreen("grid");
-      break;
-    default:
-      switchScreen("sphere");
-      break;
-  }
-}
 
 /**
  * 事件绑定
  */
 function bindEvent() {
-  document.querySelector("#menu").addEventListener("click", function(e) {
+  document.querySelector("#menu").addEventListener("click", function (e) {
     e.stopPropagation();
     // 如果正在抽奖，则禁止一切操作
     if (isLotting) {
@@ -291,11 +293,12 @@ function bindEvent() {
         addQipao(`马上抽取[${currentPrize.title}],不要走开。`);
         // rotate = !rotate;
         rotate = true;
-        if(currentPrizeIndex !=10 && currentPrizeIndex !=7 && currentPrizeIndex !=2){
-          changeScreen(currentPrizeIndex)
-        } else{
-          switchScreen("lottery");
-        }
+        // if(currentPrizeIndex !=10 && currentPrizeIndex !=7 && currentPrizeIndex !=6 && currentPrizeIndex !=2 && currentPrizeIndex !=1){
+        //   changeScreen(currentPrizeIndex)
+        // } else{
+        //   switchScreen("lottery");
+        // }
+        switchScreen("lottery");
         break;
       // 重置
       case "reset":
@@ -535,7 +538,7 @@ function selectCard(duration = 600) {
   rotate = false;
   let width = 115, //抽奖结果卡片间距
     tag = -(currentLuckys.length - 1) / 2,
-    num = 0;
+    num = 1;
   currentLuckys.length >= 10 && (tag = -(10 - 1) / 2);
 
   let text = currentLuckys.map(item => item[1]);
@@ -550,22 +553,31 @@ function selectCard(duration = 600) {
       .to(
         {
           x:
-            currentLuckys.length >= 10
-              ? num >= 10
-                ? num >= 20
-                  ? (tag - 20) * width * Resolution
+            currentLuckys.length >10
+              ? num > 10
+                ? num > 20
+                  ? num > 30
+                    ? num > 40
+                      ? (tag - 40) * width * Resolution
+                      : (tag - 30) * width * Resolution
+                    : (tag - 20) * width * Resolution
                   : (tag - 10) * width * Resolution
                 : tag * width * Resolution
-              : tag * width * Resolution,
+            : tag * width * Resolution,
           y:
-            currentLuckys.length >= 10
-              ? num >= 10
-                ? num>= 20
-                  ? 25 * Resolution * 12
-                  : 25 * Resolution * 4
-                : -75 * Resolution
-              : 50 * Resolution,
-          z: currentPrizeIndex == 3 ? 2000 : 1600 //抽取结果卡片位置
+            currentLuckys.length > 10
+              ? num > 10
+                ? num > 20
+                  ? num > 30
+                    ? num > 40
+                      ? 50 * Resolution * (currentLuckys.length>40 ?6:9)
+                      : 50 * Resolution * (currentLuckys.length>40 ?3:6)
+                    : 50 * Resolution * (currentLuckys.length>40 ?0:3)
+                  : 50 * Resolution * (currentLuckys.length>40 ?-3:0)
+              : 50 * Resolution * (currentLuckys.length>40 ?-6:-3)
+            : 50 * Resolution,
+            //当抽取动画为grid方式时,改变卡片Z轴位置
+          z: (currentPrizeIndex == 1 || currentPrizeIndex == 6) ? 1800 : 1600 //抽取结果卡片位置
         },
         Math.random() * duration + duration
       )
@@ -743,7 +755,7 @@ function changeCard(cardIndex, user) {
 
   card.innerHTML = `<div class="company">${COMPANY}</div><div class="name">${
     user[1]
-  }</div><div class="details">${user[0]}<br/>${user[2] || "PSST"}</div>`;
+    }</div><div class="details">${user[0]}<br/>${user[2] || "PSST"}</div>`;
 }
 
 /**
@@ -840,7 +852,7 @@ function reset() {
 
 let onload = window.onload;
 
-window.onload = function() {
+window.onload = function () {
   onload && onload();
 
   let music = document.querySelector("#music");
@@ -850,7 +862,7 @@ window.onload = function() {
     musicBox = document.querySelector("#musicBox");
 
   function animate() {
-    requestAnimationFrame(function() {
+    requestAnimationFrame(function () {
       if (stopAnimate) {
         return;
       }
@@ -863,7 +875,7 @@ window.onload = function() {
 
   musicBox.addEventListener(
     "click",
-    function(e) {
+    function (e) {
       if (music.paused) {
         music.play().then(
           () => {
@@ -882,7 +894,7 @@ window.onload = function() {
     false
   );
 
-  setTimeout(function() {
+  setTimeout(function () {
     musicBox.click();
   }, 1000);
 };
