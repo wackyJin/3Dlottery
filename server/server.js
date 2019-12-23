@@ -121,7 +121,7 @@ router.post('/export', (req, res, next) => {
             ['工号', '姓名', '部门']
         ];
     type.forEach((item) => {
-        outData.push(item === defaultType ? ['主持人的祝福'] :  item <0?['幸运奖'] : item==99?['特别奖']: [`${item}等奖`]);
+        outData.push(item === defaultType ? ['主持人的祝福'] :  item <0?['幸运奖'] : item==99?['特别奖']:item==4? ['4等奖(由上往下,前10人为烘干机,后10人为手机云台)']:[`${item}等奖`]);
         outData = outData.concat(luckyData[item] || []);
     });
 

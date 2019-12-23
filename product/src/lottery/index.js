@@ -103,7 +103,7 @@ function initAll() {
     url: "/getUsers",
     success(data) {
       basicData.users = data;
-
+      
       initCards();
       // startMaoPao();
       animate();
@@ -141,14 +141,14 @@ function changeScreen(currentPrizeIndex) {
       break;
   }
 }
-
+// 初始化卡片
 function initCards() {
   let member = basicData.users,
     showCards = [],
     length = member.length;
   let isBold = false,
-    // showTable = basicData.leftUsers.length === basicData.users.length,
-    showTable = basicData.users.length - basicData.leftUsers.length,
+    showTable = basicData.leftUsers.length === basicData.users.length,
+    // showTable = basicData.users.length - basicData.leftUsers.length,
     index = 0,
     totalMember = member.length,
     position = {
@@ -412,8 +412,8 @@ function createCard(user, isBold, id, showTable) {
 
   if (isBold) {
     element.className = "element lightitem";
-    // if (showTable) {
-    if (showTable > 0) {
+    if (showTable) {
+    // if (showTable > 0) {
       element.classList.add("highlight");
     }
   } else {

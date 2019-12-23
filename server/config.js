@@ -115,8 +115,8 @@ let prizes = [
     },
     {//6
         type: 4,
-        count: 10,
-        title: '小浪智能衣物消毒烘干机',
+        count: 20,
+        title: '小浪智能衣物消毒烘干机/大疆手机云台',
         img: '../img/dryer.png'
     },
     {//5
