@@ -111,8 +111,7 @@ class Qipao {
             this.element.classList.remove('bounceInRight');
             this.element.classList.add('bounceOutRight');
             this.onComplete && this.onComplete();
-        }, 8000);
-        // }, 4000);
+        }, 4000);
     }
 }
 
@@ -213,18 +212,12 @@ let setPrizeData = (function() {
                 document.querySelector(`#prize-count-${type}`).textContent = '0' + '/' + prizes[i]['count'];
             }
         }
-        // 
-        // if (currentPrize.type<0) {
-        //     let id=`prize-item-${currentPrize.type}`
-        //     document.getElementById(id).remove('hiddenLi');
-        // }
-        // 
+
         if (lasetPrizeIndex !== currentPrizeIndex) {
             let lastPrize = prizes[lasetPrizeIndex],
                 lastBox = document.querySelector(`#prize-item-${lastPrize.type}`);
             lastBox.classList.remove('shine');
             lastBox.classList.add('done');
-            // currentPrize.type<0 && lastBox.classList.add('hiddenLi');
             elements.box && elements.box.classList.add('shine');
             prizeElement.prizeType.textContent = currentPrize.type<0?'幸运奖': (currentPrize.type==99?'特别奖':(currentPrize.type+'等奖'));
             prizeElement.prizeText.textContent = currentPrize.title;

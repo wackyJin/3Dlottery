@@ -8,6 +8,7 @@ import {
   setPrizeData,
   resetPrize
 } from "./prizeList";
+import { NUMBER_MATRIX } from "./config.js";
 
 const ROTATE_TIME = 3000;
 const BASE_HEIGHT = 1080;
@@ -19,8 +20,8 @@ let TOTAL_CARDS,
   },
   prizes,
   EACH_COUNT,
-  ROW_COUNT,
-  COLUMN_COUNT,
+  ROW_COUNT = 7,
+  COLUMN_COUNT = 17,
   COMPANY,
   HIGHLIGHT_CELL,
   // 当前的比例
@@ -47,7 +48,7 @@ let selectedCardIndex = [],
     leftUsers: [] //未中奖人员
   },
   interval,
-  // 当前抽的奖项，从9等奖开始抽
+  // 当前抽的奖项，从最后开始抽
   currentPrizeIndex,
   currentPrize,
   // 正在抽奖
@@ -66,10 +67,8 @@ function initAll() {
       // 获取基础数据
       prizes = data.cfgData.prizes;
       EACH_COUNT = data.cfgData.EACH_COUNT;
-      ROW_COUNT = data.cfgData.ROW_COUNT;
-      COLUMN_COUNT = data.cfgData.COLUMN_COUNT;
       COMPANY = data.cfgData.COMPANY;
-      HIGHLIGHT_CELL = data.cfgData.HIGHLIGHT_CELL;
+      HIGHLIGHT_CELL = createHighlight();
       basicData.prizes = prizes;
       setPrizes(prizes);
 
@@ -103,7 +102,7 @@ function initAll() {
     url: "/getUsers",
     success(data) {
       basicData.users = data;
-      
+
       initCards();
       // startMaoPao();
       animate();
@@ -168,7 +167,7 @@ function initCards() {
 
   for (let i = 0; i < ROW_COUNT; i++) {
     for (let j = 0; j < COLUMN_COUNT; j++) {
-      isBold = HIGHLIGHT_CELL.includes(i + "-" + j);
+      isBold = HIGHLIGHT_CELL.includes(j + "-" + i);
       var element = createCard(
         member[index % length],
         isBold,
@@ -259,14 +258,17 @@ function initCards() {
   bindEvent();
 
   //刚进入界面时,呈现的视图
-  // 根据抽奖等级修改当前视图
-  changeScreen(currentPrizeIndex)
+  if (showTable) {
+    switchScreen("enter");
+  } else {
+    changeScreen(currentPrizeIndex)
+    // switchScreen("lottery");
+  }
 }
 
 function setLotteryStatus(status = false) {
   isLotting = status;
 }
-
 
 /**
  * 事件绑定
@@ -293,11 +295,6 @@ function bindEvent() {
         addQipao(`马上抽取[${currentPrize.title}],不要走开。`);
         // rotate = !rotate;
         rotate = true;
-        // if(currentPrizeIndex !=10 && currentPrizeIndex !=7 && currentPrizeIndex !=6 && currentPrizeIndex !=2 && currentPrizeIndex !=1){
-        //   changeScreen(currentPrizeIndex)
-        // } else{
-        //   switchScreen("lottery");
-        // }
         switchScreen("lottery");
         break;
       // 重置
@@ -413,7 +410,6 @@ function createCard(user, isBold, id, showTable) {
   if (isBold) {
     element.className = "element lightitem";
     if (showTable) {
-    // if (showTable > 0) {
       element.classList.add("highlight");
     }
   } else {
@@ -539,7 +535,7 @@ function selectCard(duration = 600) {
   let width = 115, //抽奖结果卡片间距
     tag = -(currentLuckys.length - 1) / 2,
     num = 1; //当前抽取的第num张卡片
-  currentLuckys.length >10 && (tag = -(11 - 1) / 2);
+  currentLuckys.length > 10 && (tag = -(11 - 1) / 2);
 
   let text = currentLuckys.map(item => item[1]);
   addQipao(
@@ -553,7 +549,7 @@ function selectCard(duration = 600) {
       .to(
         {
           x:
-            currentLuckys.length >10
+            currentLuckys.length > 10
               ? num > 10
                 ? num > 20
                   ? num > 30
@@ -563,20 +559,20 @@ function selectCard(duration = 600) {
                     : (tag - 20) * width * Resolution
                   : (tag - 10) * width * Resolution
                 : tag * width * Resolution
-            : tag * width * Resolution,
+              : tag * width * Resolution,
           y:
             currentLuckys.length > 10
               ? num > 10
                 ? num > 20
                   ? num > 30
                     ? num > 40
-                      ? 50 * Resolution * (currentLuckys.length>40 ?6:9)
-                      : 50 * Resolution * (currentLuckys.length>40 ?3:6)
-                    : 50 * Resolution * (currentLuckys.length>40 ?0:3)
-                  : 50 * Resolution * (currentLuckys.length>40 ?-3:0)
-              : 50 * Resolution * (currentLuckys.length>40 ?-6:-3)
-            : 50 * Resolution,
-            //当抽取动画为grid方式时,改变卡片Z轴位置
+                      ? 50 * Resolution * (currentLuckys.length > 40 ? 6 : 9)
+                      : 50 * Resolution * (currentLuckys.length > 40 ? 3 : 6)
+                    : 50 * Resolution * (currentLuckys.length > 40 ? 0 : 3)
+                  : 50 * Resolution * (currentLuckys.length > 40 ? -3 : 0)
+                : 50 * Resolution * (currentLuckys.length > 40 ? -6 : -3)
+              : 50 * Resolution,
+          //当抽取动画为grid方式时,改变卡片Z轴位置
           z: (currentPrizeIndex == 1 || currentPrizeIndex == 6) ? 1800 : 1600 //抽取结果卡片位置
         },
         Math.random() * duration + duration
@@ -735,7 +731,9 @@ function changePrize() {
   // 修改左侧prize的数目和百分比
   setPrizeData(currentPrizeIndex, luckyCount);
   // 根据抽奖等级修改当前视图
-  changeScreen(currentPrizeIndex)
+  if (currentPrizeIndex <= 10) {
+    changeScreen(currentPrizeIndex)
+  }
   // console.log(currentPrizeIndex);
 }
 
@@ -833,7 +831,6 @@ function exportData() {
   window.AJAX({
     url: "/export",
     success(data) {
-      console.log(data);
       if (data.type === "success") {
         location.href = data.url;
       }
@@ -848,6 +845,25 @@ function reset() {
       console.log("重置成功");
     }
   });
+}
+
+function createHighlight() {
+  let year = new Date().getFullYear() + "";
+  let step = 4,
+    xoffset = 1,
+    yoffset = 1,
+    highlight = [];
+
+  year.split("").forEach(n => {
+    highlight = highlight.concat(
+      NUMBER_MATRIX[n].map(item => {
+        return `${item[0] + xoffset}-${item[1] + yoffset}`;
+      })
+    );
+    xoffset += step;
+  });
+
+  return highlight;
 }
 
 let onload = window.onload;
