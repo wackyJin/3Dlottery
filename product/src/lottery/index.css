@@ -25,7 +25,6 @@ a {
     position: relative;
     margin: 0 15vh;
 }
-
 #menu {
     z-index: 4;
     margin-left: 15vh;
@@ -209,7 +208,7 @@ button:active {
     height: 6vh;
     margin-right: 1.2vh;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0);
     text-shadow: 0 0 1vh rgba(0, 255, 255, 0.95);
     overflow: hidden;
 }

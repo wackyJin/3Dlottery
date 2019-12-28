@@ -1,9 +1,9 @@
-（基于大牛的程序 git clone https://github.com/moshang-xc/lottery.git 修改版 :新增2种抽奖特效）
+（基于大牛的程序 git clone https://github.com/moshang-xc/lottery.git 修改版: 新增启动图与结束画面/新增2种抽奖特效/抽奖结果多行排列(最多50人)/增加奖品项/中间隐式抽取现金红包奖）
 # 抽奖程序
 
 年会抽奖程序，3D 球体抽奖，支持奖品信息配置，参与抽奖人员信息`Excel`导入，抽奖结果`Excel`导出
 
-> github 地址： [https://github.com/moshang-xc/lottery](https://github.com/moshang-xc/lottery)
+> github 地址： [https://github.com/wackyJ/3Dlottery.git](https://github.com/wackyJ/3Dlottery.git)
 
 ## 技术
 

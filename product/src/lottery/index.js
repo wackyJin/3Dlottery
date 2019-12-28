@@ -114,25 +114,28 @@ function initAll() {
 // 根据抽奖等级修改当前视图
 function changeScreen(currentPrizeIndex) {
   switch (currentPrizeIndex) {
-    case 10: //8等奖
-      switchScreen("enter");
-      break;
-    case 8://6等奖
+    case 12:
       switchScreen("helix");
       break;
-    case 7: //5等奖
+    case 10: 
       switchScreen("enter");
       break;
-    case 6: //4等奖
+    case 8:
+      switchScreen("helix");
+      break;
+    case 7: 
+      switchScreen("enter");
+      break;
+    case 6: 
       switchScreen("grid");
       break;
-    case 4://3等奖
+    case 4:
       switchScreen("helix");
       break;
-    case 2://1等奖
+    case 2:
       switchScreen("helix");
       break;
-    case 1://特别奖
+    case 1:
       switchScreen("grid");
       break;
     default:
@@ -731,7 +734,7 @@ function changePrize() {
   // 修改左侧prize的数目和百分比
   setPrizeData(currentPrizeIndex, luckyCount);
   // 根据抽奖等级修改当前视图
-  if (currentPrizeIndex <= 10) {
+  if (currentPrizeIndex <= 11) {
     changeScreen(currentPrizeIndex)
   }
   // console.log(currentPrizeIndex);
