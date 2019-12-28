@@ -158,7 +158,7 @@ function showPrizeList(currentPrizeIndex) {
                             <img src="${item.img}" alt="${item.title}">
                         </div>
                         <div class="prize-text">
-                            <h5 class="prize-title">${item.type<0?'幸运': (item.type==99?'特别':(item.type+'等'))}奖 ${item.title}</h5>
+                            <h5 class="prize-title ${item.title.length>8?'prize-title-sm':''}">${item.type<0?'幸运': (item.type==99?'特别':(item.type+'等'))}奖 ${item.title}</h5>
                             <div class="prize-count">
                                 <div class="progress">
                                     <div id="prize-bar-${item.type}" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;">

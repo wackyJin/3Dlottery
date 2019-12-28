@@ -230,7 +230,10 @@ button:active {
     margin: 4px 0;
     font-size: 1.8vh;
 }
-
+.prize-title-sm{
+    margin: 1px 0;
+    font-size: 1.5vh;
+}
 .prize-count {
     padding: 4px 0;
     position: relative;
