@@ -50,13 +50,13 @@ let selectedCardIndex = [],
   interval,
   // 当前抽的奖项，从最后开始抽
   currentPrizeIndex,
+  //当前视图下标,等于刚访问时加载的currentPrizeIndex
+  currentScreenIndex,
   currentPrize,
   // 正在抽奖
   isLotting = false,
   currentLuckys = [];
 
-//
-let currentScreenIndex = "";
 
 initAll();
 
@@ -265,10 +265,8 @@ function initCards() {
   //刚进入界面时,呈现的视图
   if (showTable) {
     switchScreen("enter");
-  } else if(currentPrizeIndex != currentScreenIndex){
-    changeScreen(currentPrizeIndex)
-  }else{
-    switchScreen("sphere");
+  } else {
+    (currentPrizeIndex != currentScreenIndex && changeScreen(currentPrizeIndex))||switchScreen("lottery");
   }
 }
 
@@ -319,6 +317,7 @@ function bindEvent() {
         basicData.leftUsers = Object.assign([], basicData.users);
         basicData.luckyUsers = {};
         currentPrizeIndex = basicData.prizes.length - 1;
+        currentScreenIndex = currentPrizeIndex;
         currentPrize = basicData.prizes[currentPrizeIndex];
 
         resetPrize(currentPrizeIndex);
@@ -747,8 +746,8 @@ function changePrize() {
   // 修改左侧prize的数目和百分比
   setPrizeData(currentPrizeIndex, luckyCount);
   // 根据抽奖等级修改当前视图(避免刚访问时第一次调用特效)
-  //理由为:抽奖结果卡片位置错乱
-  if (currentPrizeIndex !== currentScreenIndex) {
+  //理由为:抽奖结果卡片错乱
+  if (currentPrizeIndex != currentScreenIndex) {
     changeScreen(currentPrizeIndex)
   }
   // console.log(currentPrizeIndex);
