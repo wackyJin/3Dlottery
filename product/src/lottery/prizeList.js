@@ -144,8 +144,9 @@ function showPrizeList(currentPrizeIndex) {
     if (currentPrize.type === defaultType) {//特等奖
         currentPrize.count === '不限制';
     }
+    let tp = currentPrize.type;
     let htmlCode = `<div class="prize-mess">正在抽取
-    <label id="prizeType" class="prize-shine">${currentPrize.type<0?'幸运': (currentPrize.type==99?'特别':(currentPrize.type+'等'))}奖</label>
+    <label id="prizeType" class="prize-shine">${(tp==3||tp==5||tp==7||tp==9)?'幸运奖': (tp==1?'特别奖':tp==2?'1等奖':tp==4?'2等奖':tp==6?'3等奖':tp==8?'4等奖':(tp-5+'等奖'))}</label>
      <label id="prizeText" class="prize-shine">${currentPrize['title']}</label>，
      剩余<label id="prizeLeft" class="prize-shine">${currentPrize['count']}</label>个</div><ul class="prize-list">`;
     // let htmlCode = `<div class="prize-mess">正在抽取<label id="prizeType" class="prize-shine">${currentPrize.type +'等奖'}</label><label id="prizeText" class="prize-shine">${currentPrize['title']}</label>，剩余<label id="prizeLeft" class="prize-shine">${currentPrize['count']}</label>个</div><ul class="prize-list">`;
@@ -153,12 +154,12 @@ function showPrizeList(currentPrizeIndex) {
         if (item.type === defaultType) {
             return true;
         }
-        htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${(item.type == currentPrize.type ? "shine": '')} ${item.type<0?'hiddenLi':''}">
+        htmlCode += `<li id="prize-item-${item.type}" class="prize-item ${(item.type == currentPrize.type ? "shine": '')} ${(item.type==3||item.type==5||item.type==7||item.type==9)?'hiddenLi':''}">
                         <div class="prize-img">
                             <img src="${item.img}" alt="${item.title}">
                         </div>
                         <div class="prize-text">
-                            <h5 class="prize-title ${item.title.length>8?'prize-title-sm':''}">${item.type<0?'幸运': (item.type==99?'特别':(item.type+'等'))}奖 ${item.title}</h5>
+                            <h5 class="prize-title ${item.title.length>8?'prize-title-sm':''}">${(item.type==3||item.type==5||item.type==7||item.type==9)?'幸运奖': (item.type==1?'特别奖':item.type==2?'1等奖':item.type==4?'2等奖':item.type==6?'3等奖':item.type==8?'4等奖':(item.type-5+'等奖'))} ${item.title}</h5>
                             <div class="prize-count">
                                 <div class="progress">
                                     <div id="prize-bar-${item.type}" class="progress-bar progress-bar-danger progress-bar-striped active" style="width: 100%;">
@@ -219,7 +220,9 @@ let setPrizeData = (function() {
             lastBox.classList.remove('shine');
             lastBox.classList.add('done');
             elements.box && elements.box.classList.add('shine');
-            prizeElement.prizeType.textContent = currentPrize.type<0?'幸运奖': (currentPrize.type==99?'特别奖':(currentPrize.type+'等奖'));
+            let tp = currentPrize.type;
+            //当前正在抽奖项标题设置(奖项名)
+            prizeElement.prizeType.textContent = (tp==3||tp==5||tp==7||tp==9)?'幸运奖': (tp==1?'特别奖':tp==2?'1等奖':tp==4?'2等奖':tp==6?'3等奖':tp==8?'4等奖':(tp-5+'等奖'));
             prizeElement.prizeText.textContent = currentPrize.title;
 
             lasetPrizeIndex = currentPrizeIndex;
@@ -231,7 +234,8 @@ let setPrizeData = (function() {
             prizeElement.prizeLeft.textContent = '不限制';
             return;
         }
-        if(type<0){
+        // if(type<0){
+        if(type==3||type==5||type==7||type==9){
             count = moneyConut - count
             moneyConut = count
         }else{
@@ -242,7 +246,7 @@ let setPrizeData = (function() {
         elements.text && (elements.text.textContent = count + '/' + totalCount);
         prizeElement.prizeLeft.textContent = count;
     }
-}());
+})();
 
 function startMaoPao() {
     let len = DEFAULT_MESS.length,
