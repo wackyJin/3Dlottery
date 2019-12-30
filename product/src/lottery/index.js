@@ -55,6 +55,9 @@ let selectedCardIndex = [],
   isLotting = false,
   currentLuckys = [];
 
+//
+let currentScreenIndex = "";
+
 initAll();
 
 /**
@@ -87,6 +90,8 @@ function initAll() {
         ) {
           continue;
         }
+        //获取刚访问时,现在所抽取的奖品下标
+        currentScreenIndex = prizeIndex;
         currentPrizeIndex = prizeIndex;
         currentPrize = basicData.prizes[currentPrizeIndex];
         break;
@@ -120,10 +125,7 @@ function changeScreen(currentPrizeIndex) {
     case 10: 
       switchScreen("enter");
       break;
-    case 8:
-      switchScreen("helix");
-      break;
-    case 7: 
+    case 8: 
       switchScreen("enter");
       break;
     case 6: 
@@ -263,9 +265,10 @@ function initCards() {
   //刚进入界面时,呈现的视图
   if (showTable) {
     switchScreen("enter");
-  } else {
+  } else if(currentPrizeIndex != currentScreenIndex){
     changeScreen(currentPrizeIndex)
-    // switchScreen("lottery");
+  }else{
+    switchScreen("sphere");
   }
 }
 
@@ -743,8 +746,9 @@ function changePrize() {
   let luckyCount = (luckys ? luckys.length : 0) + EACH_COUNT[currentPrizeIndex];
   // 修改左侧prize的数目和百分比
   setPrizeData(currentPrizeIndex, luckyCount);
-  // 根据抽奖等级修改当前视图
-  if (currentPrizeIndex <= 11) {
+  // 根据抽奖等级修改当前视图(避免刚访问时第一次调用特效)
+  //理由为:抽奖结果卡片位置错乱
+  if (currentPrizeIndex !== currentScreenIndex) {
     changeScreen(currentPrizeIndex)
   }
   // console.log(currentPrizeIndex);
