@@ -322,13 +322,16 @@ function bindEvent() {
         reset();
         switchScreen("enter");
         break;
-      // 保存抽奖结果
-      case "onlySave":
-        // 主动保存上一次的抽奖数据
-        saveData().then(res=>{
-          addQipao(`已经保存[${currentPrize.title}]中奖名单`);
-        })
-        break;
+        // 保存当前抽奖结果
+        case "onlySave":
+          saveData().then(res => {
+            resetCard().then(res => {
+              // 将之前的记录置空
+              currentLuckys = [];
+            });
+            addQipao(`已保存当前中奖名单!`);
+          });
+          break;
       // 抽奖
       case "lottery":
         setLotteryStatus(true);
