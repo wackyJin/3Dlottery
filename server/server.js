@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 });
 
 //设置跨域访问
-app.all("*", function(req, res, next) {
+app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
@@ -127,12 +127,13 @@ router.post('/errorData', (req, res, next) => {
 
 // 保存数据到excel中去
 router.post('/export', (req, res, next) => {
-  let type = [1, 2,  4,  6,  8,  10, 11, 12, 13,3,5,7,9, defaultType],
+  let type = [1, 2, 4, 6, 8, 10, 11, 12, 13, 14, 3, 5, 7, 9, defaultType],
     outData = [
       ['工号', '姓名', '部门']
     ];
   type.forEach((item) => {
-    outData.push( (item==3||item==5||item==7||item==9)?['幸运奖']: (item==1?['特别奖']:item==2?['1等奖']:item==4?['2等奖']:item==6?['3等奖']:item==8?['4等奖(由上往下,前10人为烘干机,后10人为手机云台)']:item>9?[(item-5+'等奖')]:['主持人的祝福']));
+    // outData.push((item == 3 || item == 5 || item == 7 || item == 9) ? ['幸运奖'] : (item == 1 ? ['特别奖'] : item == 2 ? ['1等奖'] : item == 4 ? ['2等奖'] : item == 6 ? ['3等奖'] : item == 8 ? ['4等奖(由上往下,前10人为烘干机,后10人为手机云台)'] : item > 9 ? [(item - 5 + '等奖')] : ['主持人的祝福']));
+    outData.push( item == 8 ?[`${cfg.prizes[item].title} (由上往下,前10人为烘干机,后10人为手机云台)`]:[`${cfg.prizes[item].title}`]);
     outData = outData.concat(luckyData[item] || []);
   });
 
@@ -233,14 +234,14 @@ function getLeftUsers() {
 loadData();
 
 module.exports = {
-  run: function(devPort, noOpen) {
+  run: function (devPort, noOpen) {
     let openBrowser = true;
     if (process.argv.length > 3) {
       if (process.argv[3] && (process.argv[3] + '').toLowerCase() === 'n') {
         openBrowser = false;
       }
     }
-    
+
     if (noOpen) {
       openBrowser = noOpen !== "n";
     }
