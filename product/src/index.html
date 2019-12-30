@@ -96,16 +96,26 @@
   <div class="qipao-container"></div>
   <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
   <script>
-    $("#startImg").click(function () {
-      $("#startImg").slideToggle();
-      $("#bgImg").slideToggle();
-    });
-    $("button#over").click(function () {
-      $("#overImg").slideToggle();
-    });
-    $("#overImg").dblclick(function () {
-      $("#overImg").slideToggle();
-    });
+    (function () {
+      $(document).keyup(function (e) { //监听键盘事件
+        var e = e || window.event;
+        if ($("#startImg").is(":hidden")) { //启动图是否已隐藏
+          if (e.keyCode == 13) { //回车enter
+            $("#lottery").click()
+          }
+        }
+      })
+      $("#startImg").click(function () {
+        $("#startImg").slideToggle();
+        $("#bgImg").slideToggle();
+      });
+      $("button#over").click(function () {
+        $("#overImg").slideToggle();
+      });
+      $("#overImg").dblclick(function () {
+        $("#overImg").slideToggle();
+      });
+    })();
     // 启动图特效------------
     $(function () {
       var fragmentConfig = {
