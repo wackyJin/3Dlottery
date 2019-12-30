@@ -110,7 +110,10 @@ button {
     font-weight: bold;
     cursor: pointer;
 }
-
+span#onlySave{
+    cursor: pointer;
+    color:#fff;
+}
 button:hover {
     background-color: rgba(0, 255, 255, 0.5);
 }
@@ -470,7 +473,7 @@ button:active {
 }
 
 /* 启动图特效 */
-@charset "utf-8";
+/* @charset "utf-8"; */
 *{
 	margin: 0;
 	padding: 0;
