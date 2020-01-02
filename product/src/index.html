@@ -99,9 +99,15 @@
     (function () {
       $(document).keyup(function (e) { //监听键盘事件
         var e = e || window.event;
-        if ($("#startImg").is(":hidden")) { //启动图是否已隐藏
-          if (e.keyCode == 13) { //回车enter
+        if ($("#startImg").is(":hidden") && $("#overImg").is(":hidden")) { //启动图是否已隐藏
+          if (e.keyCode == 13 || e.keyCode == 108) { //"回车enter"
             $("#lottery").click()
+          } else if (e.keyCode == 107 || e.keyCode == 187) { //"+"
+            $("#save").click()
+          } else if (e.keyCode == 109 || e.keyCode == 189) { //"-"
+            $("#over").click()
+          } else if (e.keyCode == 8 ) { //"backspace"
+            $("#onlySave").click()
           }
         }
       })
