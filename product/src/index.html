@@ -101,9 +101,11 @@
         var e = e || window.event;
         if ($("#startImg").is(":hidden") && $("#overImg").is(":hidden")) { //启动图是否已隐藏
           if (e.keyCode == 13 || e.keyCode == 108) { //"回车enter"
-            if (!($("#enter").css('display') === 'none')) {
+            if (!($("#startImg").is(":hidden"))) {
+              $("#startImg").slideToggle(); //隐藏启动图
+            } else if (!($("#enter").css('display') === 'none')) {
               $("#enter").click() //进入抽奖
-            }else{
+            } else {
               $("#lottery").click() //抽奖
             }
           } else if (e.keyCode == 107 || e.keyCode == 187) { //"+"
