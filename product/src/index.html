@@ -119,6 +119,9 @@
             $("#onlySave").click() //保存当前结果
           } else if (e.keyCode == 8) { //"backspace"
             $("#reLottery").click() //重新抽奖
+          } else if (e.keyCode == 90 ) { //"z" 
+          //   显示/隐藏按钮列表
+            $("#lotteryBar").css('display') === 'none'?$("#lotteryBar").removeClass("none"):$("#lotteryBar").addClass("none") 
           }
         }
       })
