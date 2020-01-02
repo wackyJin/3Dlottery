@@ -101,15 +101,19 @@
         var e = e || window.event;
         if ($("#startImg").is(":hidden") && $("#overImg").is(":hidden")) { //启动图是否已隐藏
           if (e.keyCode == 13 || e.keyCode == 108) { //"回车enter"
-            $("#lottery").click() //抽奖
+            if (!($("#enter").css('display') === 'none')) {
+              $("#enter").click() //进入抽奖
+            }else{
+              $("#lottery").click() //抽奖
+            }
           } else if (e.keyCode == 107 || e.keyCode == 187) { //"+"
-            $("#save").click()   //导出抽奖结果
+            $("#save").click() //导出抽奖结果
           } else if (e.keyCode == 109 || e.keyCode == 189) { //"-"
-            $("#over").click()  //展示结束图
-          } else if (e.keyCode == 32 ) { //"space"
-            $("#onlySave").click()  //保存当前结果
-          } else if (e.keyCode == 8 ) { //"backspace"
-            $("#reLottery").click()  //重新抽奖
+            $("#over").click() //展示结束图
+          } else if (e.keyCode == 32) { //"space"
+            $("#onlySave").click() //保存当前结果
+          } else if (e.keyCode == 8) { //"backspace"
+            $("#reLottery").click() //重新抽奖
           }
         }
       })

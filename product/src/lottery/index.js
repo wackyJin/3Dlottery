@@ -123,19 +123,19 @@ function changeScreen(currentPrizeIndex) {
       switchScreen("helix");
       break;
     case 10: 
-      switchScreen("enter");
+      switchScreen("table");
       break;
     case 8: 
-      switchScreen("enter");
+      switchScreen("grid");
       break;
     case 6: 
-      switchScreen("grid");
+      switchScreen("table");
       break;
     case 4:
       switchScreen("helix");
       break;
     case 2:
-      switchScreen("helix");
+      switchScreen("table");
       break;
     case 1:
       switchScreen("grid");
@@ -387,14 +387,19 @@ function switchScreen(type) {
       btns.lotteryBar.classList.add("none");
       transform(targets.table, 2000);
       break;
+    case "table":
+      btns.enter.classList.add("none");
+      btns.lotteryBar.classList.remove("none");
+      transform(targets.table, 2000);
+      break;
     case "helix":
       btns.enter.classList.add("none");
       btns.lotteryBar.classList.remove("none");
       transform(targets.helix, 2000);
       break;
     case "grid":
-      btns.enter.classList.remove("none");
-      btns.lotteryBar.classList.add("none");
+      btns.enter.classList.add("none");
+      btns.lotteryBar.classList.remove("none");
       transform(targets.grid, 2000);
       break;
     default:
