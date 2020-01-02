@@ -7,9 +7,9 @@ const prizes = [
   },
   {//1
       type: 1,
-      count: 5,
-      title: '笔记本电脑',
-      img: '../img/laptop.png'
+      count: 6,
+      title: '笔记本电脑5台/大疆无人机1个',
+      img: '../img/special-award.png'
   },
   {//2
       type: 2,
