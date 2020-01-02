@@ -387,24 +387,29 @@ function switchScreen(type) {
       btns.lotteryBar.classList.add("none");
       transform(targets.table, 2000);
       break;
-    case "table":
+    case "lottery":
       btns.enter.classList.add("none");
       btns.lotteryBar.classList.remove("none");
+      transform(targets.sphere, 2000);
+      break;
+    case "table":
+      btns.enter.classList.add("none");
+      // btns.lotteryBar.classList.remove("none");
       transform(targets.table, 2000);
       break;
     case "helix":
       btns.enter.classList.add("none");
-      btns.lotteryBar.classList.remove("none");
+      // btns.lotteryBar.classList.remove("none");
       transform(targets.helix, 2000);
       break;
     case "grid":
       btns.enter.classList.add("none");
-      btns.lotteryBar.classList.remove("none");
+      // btns.lotteryBar.classList.remove("none");
       transform(targets.grid, 2000);
       break;
     default:
       btns.enter.classList.add("none");
-      btns.lotteryBar.classList.remove("none");
+      // btns.lotteryBar.classList.remove("none");
       transform(targets.sphere, 2000);
       break;
   }
