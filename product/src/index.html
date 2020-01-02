@@ -99,7 +99,12 @@
     (function () {
       $(document).keyup(function (e) { //监听键盘事件
         var e = e || window.event;
-        if ($("#startImg").is(":hidden") && $("#overImg").is(":hidden")) { //启动图是否已隐藏
+        if (!($("#startImg").is(":hidden"))) { //启动图未隐藏
+          if (e.keyCode == 13 || e.keyCode == 108) { //"回车enter"
+            $("#startImg").click() //隐藏启动图
+          }
+        }
+        if ($("#startImg").is(":hidden") && $("#overImg").is(":hidden")) { //启动图与结束图是否已隐藏
           if (e.keyCode == 13 || e.keyCode == 108) { //"回车enter"
             if (!($("#enter").css('display') === 'none')) {
               $("#enter").click() //进入抽奖
