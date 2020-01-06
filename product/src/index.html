@@ -99,6 +99,9 @@
     (function () {
       $(document).keyup(function (e) { //监听键盘事件
         var e = e || window.event;
+        if (e.keyCode == 107 || e.keyCode == 187) { //"+"
+          $("#save").click() //导出抽奖结果
+        }
         if (!($("#startImg").is(":hidden"))) { //启动图未隐藏
           if (e.keyCode == 13 || e.keyCode == 108) { //"回车enter"
             $("#startImg").click() //隐藏启动图
@@ -111,19 +114,18 @@
             } else {
               $("#lottery").click() //抽奖
             }
-          } else if (e.keyCode == 107 || e.keyCode == 187) { //"+"
-            $("#save").click() //导出抽奖结果
           } else if (e.keyCode == 109 || e.keyCode == 189) { //"-"
             $("#over").click() //展示结束图
           } else if (e.keyCode == 32) { //"space"
             $("#onlySave").click() //保存当前结果
           } else if (e.keyCode == 8) { //"backspace"
             $("#reLottery").click() //重新抽奖
-          } else if (e.keyCode == 90 ) { //"z" 
-          //   显示/隐藏按钮列表
-            $("#lotteryBar").css('display') === 'none'?$("#lotteryBar").removeClass("none"):$("#lotteryBar").addClass("none") 
-          } else if (e.keyCode == 77 ) { //"m" 
-          //   暂停/播放音乐
+          } else if (e.keyCode == 90) { //"z" 
+            //   显示/隐藏按钮列表
+            $("#lotteryBar").css('display') === 'none' ? $("#lotteryBar").removeClass("none") : $("#lotteryBar")
+              .addClass("none")
+          } else if (e.keyCode == 77) { //"m" 
+            //   暂停/播放音乐
             $("#musicBox").click()
           }
         }
