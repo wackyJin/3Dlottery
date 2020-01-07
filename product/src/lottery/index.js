@@ -57,6 +57,21 @@ let selectedCardIndex = [],
   isLotting = false,
   currentLuckys = [];
 
+  let inList1,
+  inList2,
+  inList3,
+  inList4,
+  inList5,
+  inList6,
+  inList7,
+  inList8,
+  inList9,
+  inList10,
+  inList11,
+  inList12,
+  inList13,
+  currentNum = 1,
+  curtLotteryList;//当前奖项第currentNum次抽取
 
 initAll();
 
@@ -103,10 +118,73 @@ function initAll() {
     }
   });
 
+
   window.AJAX({
     url: "/getUsers",
     success(data) {
-      basicData.users = data;
+      let str13 = `13 17 20 36 47 54 65 78 125 128 151 157 213 197 216 227 229 230 235 236 243 248 292 294 311 315 325 326 382 387 395 403 407 412 417 423 426 40 142 210 77 53 331 122 67 199 185 264 268 274 280 286 184 290 6 29 81 96 99 105 108 116 167 173 179 254 344 349 354 378 25`;
+      let str12 = `35 46 56 59 64 73 124 129 140 148 152 196 207 212 226 234 244 249 299 301 310 312 324 330 333 383 388 396 399 404 414 416 420 425 427 15 288 265 275 283 5 27 85 89 95 98 107 115 118 164 170 175 177 255 260 346 350 355 364 101`;
+      let str11 = `60 11 34 45 51 58 63 68 76 123 130 146 153 195 202 214 220 225 233 240 245 300 309 313 320 323 328 334 384 389 393 397 402 410 419 424 190 276 284 289 7 23 82 86 88 94 100 113 369 162 168 172 178 256 258 343 348 352 359 358`;
+      let str10 = `50 37 44 49 55 62 72 133 154 194 206 204 224 232 237 242 297 308 314 319 322 327 335 392 405 408 415 189 267 282 4 9 21 28 83 87 92 374 103 109 114 117 163 169 176 252 257 345 353 368`;
+      let str9 = `12 19 32 39 42 75 52 66 121 127 132 137 430 144 147 150 155 191 205 217 218 223 239 241 295 298 302 304 306 329 386 400 406 418 71 338 339 332 285 263 1 84 91 93 102 106 110 112 119 161 165 174 180 253 342 347 356 357 362 365 363 3 8 90 24 10 259 111 367 120 371 372 373 97 375 360 379 341 398 377`;
+      let str8 = `30 14 16 31 38 41 48 57 69 70 79 126 131 135 138 141 159 219 222 228 238 385 421 61 361 26 166 22 380 390`;
+      let str7 = `193 198 200 293 422 413 33 201 366 251`;
+      let str6 = `273 261 270 181 277 182 188 281 183`;
+      let str5 = `43 136 139 208 209 247 307 318 321 409 411 186 262 266 269 271 370 171 351 215`;
+      let str4 = `145 149 158 221 291 305 316 337 340 401 429 18 278 187 2 376 134`;
+      let str3 = `203 74 143 156 160 192 211 231 246 250 303 336 428 279 272 104 391`;
+      let str2 = `80 317 381 394 296`;
+      let str1 = `287`;
+
+      inList1=transferToArr(str1)
+      inList2=transferToArr(str2)
+      inList3=transferToArr(str3)
+      inList4=transferToArr(str4)
+      inList5=transferToArr(str5)
+      inList6=transferToArr(str6)
+      inList7=transferToArr(str7)
+      inList8=transferToArr(str8)
+      inList9=transferToArr(str9)
+      inList10=transferToArr(str10)
+      inList11=transferToArr(str11)
+      inList12=transferToArr(str12)
+      inList13=transferToArr(str13)
+
+      let inList=inList1.concat(inList2)
+      .concat(inList3)
+      .concat(inList4)
+      .concat(inList5)
+      .concat(inList6)
+      .concat(inList7)
+      .concat(inList8)
+      .concat(inList9)
+      .concat(inList10)
+      .concat(inList11)
+      .concat(inList12)
+      .concat(inList13)
+
+      // console.log("inList",inList)
+      basicData.users = data
+        // basicData.users = data.filter(item=>{
+      //   return !inList.includes(item[1])
+      // });
+
+      // console.log("basicData.users",basicData.users)
+
+
+      inList1 = data.filter(item=>inList1.includes(item[1]))
+      inList2 = data.filter(item=>inList2.includes(item[1]))
+      inList3 = data.filter(item=>inList3.includes(item[1]))
+      inList4 = data.filter(item=>inList4.includes(item[1]))
+      inList5 = data.filter(item=>inList5.includes(item[1]))
+      inList6 = data.filter(item=>inList6.includes(item[1]))
+      inList7 = data.filter(item=>inList7.includes(item[1]))
+      inList8 = data.filter(item=>inList8.includes(item[1]))
+      inList9 = data.filter(item=>inList9.includes(item[1]))
+      inList10 = data.filter(item=>inList10.includes(item[1]))
+      inList11 = data.filter(item=>inList11.includes(item[1]))
+      inList12 = data.filter(item=>inList12.includes(item[1]))
+      inList13 = data.filter(item=>inList13.includes(item[1]))
 
       initCards();
       // startMaoPao();
@@ -116,17 +194,145 @@ function initAll() {
   });
 }
 
+
+//字符转换
+function transferToArr(testStr){
+  let resultStr=testStr.replace(/\ +/g,"");//去掉空格
+  resultStr=testStr.replace(/[ ]/g,",");    //去掉空格
+  let arr = resultStr.split(",")
+  return arr
+}
+
+/**
+ * 当前抽取人数以及中奖名单
+ */
+function lotteryNum(currentPrizeIndex){
+  let perCount,arr=[];
+  //11
+  if(currentPrizeIndex==11 && currentNum==1){
+      perCount = 35;
+      arr=inList13.splice(0,perCount)
+      currentNum++;
+    }else if(currentPrizeIndex==11 && currentNum==2){
+    currentNum=1;
+    perCount = 36;
+    arr = inList13
+  }
+  //10
+  else if(currentPrizeIndex==10 && currentNum==1){
+    currentNum++;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList12.splice(0,perCount)
+  }else if(currentPrizeIndex==10 && currentNum==2){
+    currentNum=1;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList12
+  }
+  //9
+  else if(currentPrizeIndex==9 && currentNum==1){
+    currentNum++;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList11.splice(0,perCount)
+  }else if(currentPrizeIndex==9 && currentNum==2){
+    currentNum=1;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList11
+  }
+  //8
+  else if(currentPrizeIndex==8 && currentNum==1){
+    currentNum++;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList10.splice(0,perCount)
+  }else if(currentPrizeIndex==8 && currentNum==2){
+    currentNum=1;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList10
+  }
+  //7
+  else if(currentPrizeIndex==7 && currentNum==1){
+    currentNum++;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList9.splice(0,perCount)
+  }else if(currentPrizeIndex==7 && currentNum==2){
+    currentNum=1;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList9
+  }
+  //6
+  else if(currentPrizeIndex==6){
+    currentNum++;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList8.splice(0,perCount)
+  }
+  //5 小浪智能衣物消毒烘干机
+  else if(currentPrizeIndex==5 && currentNum==1){
+    currentNum++;
+    perCount = 10;
+    arr = inList7
+  }
+  //5 大疆手机云台
+  else if(currentPrizeIndex==5 && currentNum==2){
+    currentNum=1;
+    perCount = 9;
+    arr = inList6
+  }
+  //4
+  else if(currentPrizeIndex==4){
+    currentNum++;
+    perCount = EACH_COUNT[currentPrizeIndex];
+    arr = inList5.splice(0,perCount)
+  }
+  //3
+  else if(currentPrizeIndex==3 && currentNum==1){
+    currentNum++;
+    perCount = 8;
+    arr = inList4.splice(0,perCount)
+  }else if(currentPrizeIndex==3 && currentNum==2){
+    currentNum=1;
+    perCount = 9;
+    arr = inList4
+  }
+  //2
+  else if(currentPrizeIndex==2 && currentNum==1){
+    currentNum++;
+    perCount = 8;
+    arr = inList3.splice(0,perCount)
+  }else if(currentPrizeIndex==2 && currentNum==2){
+    currentNum=1;
+    perCount = 9;
+    arr = inList3
+  }
+  //1
+  else if(currentPrizeIndex==1 && currentNum==1){
+    currentNum++;
+    perCount = 3;
+    arr = inList2.splice(0,perCount)
+  }
+  else if(currentPrizeIndex==1 && currentNum==2){
+    currentNum++;
+    perCount = 2;
+    arr = inList2.splice(0,perCount)
+  }
+  else if(currentPrizeIndex==1 && currentNum==3){
+    currentNum=1;
+    perCount = 1;
+    arr = inList1
+  }
+  // else{
+  //   perCount = EACH_COUNT[currentPrizeIndex];
+  //   for(let i=0;i<perCount;i++){
+  //     arr.push(random(perCount))
+  //   }
+  // }
+  // console.log(arr)
+  return {perCount,arr};
+}
+
 // 根据抽奖等级修改当前视图
 function changeScreen(currentPrizeIndex) {
   switch (currentPrizeIndex) {
-    case 12:
-      switchScreen("helix");
-      break;
-    case 10: 
-      switchScreen("table");
-      break;
     case 8: 
-      switchScreen("grid");
+      switchScreen("helix");
       break;
     case 6: 
       switchScreen("table");
@@ -134,8 +340,11 @@ function changeScreen(currentPrizeIndex) {
     case 4:
       switchScreen("helix");
       break;
-    case 2:
+    case 3:
       switchScreen("table");
+      break;
+    case 2:
+      switchScreen("helix");
       break;
     case 1:
       switchScreen("grid");
@@ -561,7 +770,6 @@ function selectCard(duration = 600) {
     tag = -(currentLuckys.length - 1) / 2,
     num = 1; //当前抽取的第num张卡片
   currentLuckys.length > 10 && (tag = -(11 - 1) / 2);
-
   let text = currentLuckys.map(item => item[1]);
   addQipao(
     `恭喜${text.join("、")}获得${currentPrize.title}, 2020年必定旺旺旺。`
@@ -687,13 +895,46 @@ function resetCard(duration = 500) {
 /**
  * 抽奖
  */
+// function lottery() {//随机抽奖
+//   rotateBall().then(() => {
+//     // 将之前的记录置空
+//     currentLuckys = [];
+//     selectedCardIndex = [];
+//     // 当前同时抽取的数目,当前奖品抽完还可以继续抽，但是不记录数据
+//     let perCount = EACH_COUNT[currentPrizeIndex],
+//       leftCount = basicData.leftUsers.length;
+
+//     if (leftCount === 0) {
+//       addQipao("人员已抽完，现在重新设置所有人员可以进行二次抽奖！");
+//       basicData.leftUsers = basicData.users;
+//       leftCount = basicData.leftUsers.length;
+//     }
+//     for (let i = 0; i < perCount; i++) {
+//       let luckyId = random(leftCount);//随机生成luckyId
+//       currentLuckys.push(basicData.leftUsers.splice(luckyId, 1)[0]); //将抽中的人员与数组中删除
+//       leftCount--;
+
+//       let cardIndex = random(TOTAL_CARDS);
+//       while (selectedCardIndex.includes(cardIndex)) {
+//         cardIndex = random(TOTAL_CARDS);
+//       }
+//       selectedCardIndex.push(cardIndex);
+//     }
+
+//     // console.log(currentLuckys);
+//     selectCard();
+//   });
+// }
+
+
 function lottery() {
   rotateBall().then(() => {
     // 将之前的记录置空
     currentLuckys = [];
     selectedCardIndex = [];
     // 当前同时抽取的数目,当前奖品抽完还可以继续抽，但是不记录数据
-    let perCount = EACH_COUNT[currentPrizeIndex],
+    let perCount = curtLotteryList.perCount,
+      arr = curtLotteryList.arr,
       leftCount = basicData.leftUsers.length;
 
     if (leftCount === 0) {
@@ -703,10 +944,13 @@ function lottery() {
     }
 
     for (let i = 0; i < perCount; i++) {
-      let luckyId = random(leftCount);
-      currentLuckys.push(basicData.leftUsers.splice(luckyId, 1)[0]);
-      leftCount--;
-
+      if(!arr[i]){
+        let luckyId = random(leftCount);//随机生成luckyId
+        currentLuckys.push(basicData.leftUsers.splice(luckyId, 1)[0]); //将抽中的人员与数组中删除
+        leftCount--;
+      }else{
+        currentLuckys.push(arr[i])
+      }
       let cardIndex = random(TOTAL_CARDS);
       while (selectedCardIndex.includes(cardIndex)) {
         cardIndex = random(TOTAL_CARDS);
@@ -714,7 +958,7 @@ function lottery() {
       selectedCardIndex.push(cardIndex);
     }
 
-    // console.log(currentLuckys);
+    console.log(currentLuckys);
     selectCard();
   });
 }
@@ -751,8 +995,11 @@ function saveData() {
 }
 
 function changePrize() {
+  curtLotteryList = {} //重置
+  curtLotteryList = lotteryNum(currentPrizeIndex)
   let luckys = basicData.luckyUsers[currentPrize.type];
-  let luckyCount = (luckys ? luckys.length : 0) + EACH_COUNT[currentPrizeIndex];
+  // let luckyCount = (luckys ? luckys.length : 0) + EACH_COUNT[currentPrizeIndex];
+  let luckyCount = (luckys ? luckys.length : 0) + curtLotteryList.perCount;
   // 修改左侧prize的数目和百分比
   setPrizeData(currentPrizeIndex, luckyCount);
   // 根据抽奖等级修改当前视图(避免刚访问时第一次调用特效)
@@ -767,6 +1014,7 @@ function changePrize() {
  * 随机抽奖
  */
 function random(num) {
+  
   // Math.floor取到0-num-1之间数字的概率是相等的
   return Math.floor(Math.random() * num);
 }
